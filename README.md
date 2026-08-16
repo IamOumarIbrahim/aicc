@@ -63,6 +63,22 @@ flowchart TD
 
 ---
 
+## 🛡️ Built-in Self-Healing Architecture
+
+`aicc` is engineered with an 8-layer self-healing subsystem to guarantee zero runtime failures across diverse environments:
+
+1. **20+ Log Naming Candidate Auto-Discovery**: If no log file is explicitly configured (or if the configured name is absent), `aicc` automatically searches the repository root for over 20 standard naming conventions (`CHANGELOG.md`, `dev.md`, `logging.md`, `devlog.md`, `changes.md`, `history.md`, `releases.md`, `worklog.md`, etc.) and fuzzy matches any root log markdown file.
+2. **Git Executable Auto-Discovery**: If `git` is missing from the active subshell PATH, `aicc` checks standard Windows install directories (`Program Files`, `AppData/Local/Programs/Git`, Chocolatey) and auto-injects it into the session.
+3. **User Identity Self-Healing**: Automatically prevents `unable to auto-detect email address` Git errors by resolving missing `user.name` and `user.email` from GitHub CLI profile or system login identity.
+4. **Multi-Tier AI Cascaded Fallbacks**: If the local CLI (`codex` or `claude`) times out or encounters PATH errors, `aicc` seamlessly falls back to direct REST API calls (`gpt-4o-mini`, `claude-3-5-haiku`).
+5. **Cross-Provider Key Recovery**: If the selected provider has no valid key configured, `aicc` checks for alternative provider keys present in `~/.aicc/.env`.
+6. **Deterministic Offline Fallback**: If internet connectivity is down or all AI keys fail, `aicc` parses staged diff statistics to generate a meaningful conventional commit message and changelog entry, ensuring commits are never blocked.
+7. **Remote Push & Divergence Resolution**: Automatically sets upstream tracking (`git push -u origin <branch>`) on new repos, and detects non-fast-forward remote divergences to execute an automated `git pull --rebase` before pushing.
+8. **Universal Web URL Parsing**: Normalizes SSH (`git@github.com:...`) and HTTPS Git remotes to open the repository in the user's default browser even without GitHub CLI installed.
+
+
+---
+
 ## ⚙️ Configuration & Customization
 
 The interactive setup wizard saves your settings securely outside repository tracking at `~/.aicc/`:

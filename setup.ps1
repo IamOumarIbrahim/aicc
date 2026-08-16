@@ -147,16 +147,17 @@ $selectedLogFile = $LogFile
 if (-not $selectedLogFile -and -not $NonInteractive) {
     $currentLog = if ($existingConfig["log_filename"]) { $existingConfig["log_filename"] } else { "CHANGELOG.md" }
     Write-Host "Logging & Changelog Filename Configuration:" -ForegroundColor Yellow
-    Write-Host "Specify the markdown file to maintain in the root of repositories." -ForegroundColor Gray
-    Write-Host "(e.g., CHANGELOG.md, dev.md, logging.md, devlog.md)" -ForegroundColor Gray
+    Write-Host "Specify a preferred filename, or leave empty for auto-detection." -ForegroundColor Gray
+    Write-Host "(Auto-detects: dev.md, logging.md, devlog.md, CHANGELOG.md, changes.md, etc.)" -ForegroundColor Gray
     $logPrompt = Read-Host "Enter log filename [Default: $currentLog]"
     $selectedLogFile = if ($logPrompt) { $logPrompt.Trim() } else { $currentLog }
 } elseif (-not $selectedLogFile) {
     $selectedLogFile = if ($existingConfig["log_filename"]) { $existingConfig["log_filename"] } else { "CHANGELOG.md" }
 }
 
-Write-Host "Configured Log Filename: $selectedLogFile" -ForegroundColor Green
+Write-Host "Configured Log Filename: $(if ($selectedLogFile) { $selectedLogFile } else { 'Auto-Detect 20+ Naming Variants' })" -ForegroundColor Green
 Write-Host ""
+
 
 # -----------------------------------------------------------------------------
 # 4. Save JSON Configuration
