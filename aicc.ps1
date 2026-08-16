@@ -366,8 +366,16 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 # -----------------------------------------------------------------------------
-# 10. View Web Repository
+# 10. Open Repository in Default Browser
 # -----------------------------------------------------------------------------
-if ($config.open_web_on_push -and (Get-Command gh -ErrorAction SilentlyContinue)) {
-    gh repo view --web 2>$null
+Write-Host "Opening repository in browser..." -ForegroundColor Cyan
+if (Get-Command gh -ErrorAction SilentlyContinue) {
+    gh repo view --web
+} else {
+    $remoteUrl = git remote get-url origin 2>$null
+    if ($remoteUrl -match 'github\.com[:/]([^/]+)/([^/\.]+)') {
+        $webUrl = "https://github.com/$($matches[1])/$($matches[2])"
+        Start-Process $webUrl
+    }
 }
+
