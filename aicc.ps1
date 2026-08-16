@@ -271,8 +271,11 @@ $providerDisplay = switch ($provider) {
     default    { "Codex" }
 }
 
-$logDisplay = if ($hasLogFile) { "& $(Split-Path $targetLogFile -Leaf) " } else { "" }
-Write-Host "Generating AI commit message $logDisplaywith $providerDisplay..." -ForegroundColor Cyan
+$logLabel = if ($hasLogFile) {
+    $leaf = Split-Path $targetLogFile -Leaf
+    if ($leaf -ieq "CHANGELOG.md" -or $leaf -ieq "changelog.md") { "& changelog " } else { "& $leaf " }
+} else { "" }
+Write-Host "Generating AI commit message $logLabelwith $providerDisplay..." -ForegroundColor Cyan
 
 $prompt = @"
 Analyze the staged git changes below.
