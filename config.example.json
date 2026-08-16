@@ -6,7 +6,5 @@
   "default_branch": "main",
   "max_commit_words": 10,
   "changelog_bullets_count": 3,
-  "open_web_on_push": true,
-  "openai_model": "gpt-4o-mini",
-  "anthropic_model": "claude-3-5-haiku-20241022"
+  "open_web_on_push": true
 }

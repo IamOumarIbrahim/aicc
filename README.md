@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>⚡ aicc</h1>
+  <h1>aicc</h1>
   <p><strong>Reproducible AI-driven git staging, 10-word commit generation, and automated changelog maintenance for Codex, Claude Code, and direct APIs.</strong></p>
 
   [![PowerShell](https://img.shields.io/badge/PowerShell-5.1%20%7C%207%2B-blue.svg?style=flat-square&logo=powershell&logoColor=white)](https://learn.microsoft.com/en-us/powershell/)
@@ -12,7 +12,7 @@
 
 ---
 
-## ⚡ Quickstart — Setup in 30 Seconds
+## Quickstart — Setup in 30 Seconds
 
 ```bash
 # 1. Clone the repository
@@ -32,7 +32,35 @@ aicc
 
 ---
 
-## 🎯 What `aicc` Does
+## Requirements and Dependencies
+
+`aicc` has zero mandatory package dependencies. It works out of the box on standard Windows installations using built-in PowerShell and Git.
+
+### Core Requirements
+- **PowerShell**: Windows PowerShell 5.1 or PowerShell Core (pwsh 7+)
+- **Git**: Git 2.30+ installed and accessible in PATH
+
+### Optional Integrations
+- **GitHub CLI (`gh`)**: Recommended for automated private repository creation and browser opening.
+  ```powershell
+  winget install --id GitHub.cli
+  gh auth login
+  ```
+- **AI CLI Packages (Node.js / npm)**:
+  If you prefer running official CLI binaries instead of direct REST endpoints, install via `npm`:
+  ```bash
+  # Install both optional CLI engines:
+  npm install
+
+  # Or install globally:
+  npm run install:codex    # installs @openai/codex
+  npm run install:claude   # installs @anthropic-ai/claude-code
+  ```
+  *Note: If npm packages are not installed, `aicc` automatically falls back to native direct REST API requests with your configured API key.*
+
+---
+
+## What aicc Does
 
 ```mermaid
 flowchart TD
@@ -57,36 +85,35 @@ flowchart TD
 
 1. **Auto-Detects or Creates Git Repository**: If you run `aicc` inside an unversioned directory, it automatically initializes Git and creates a private GitHub repository via GitHub CLI (`gh`), setting up the remote origin instantly.
 2. **Stages All Changes**: Runs `git add .` safely.
-3. **Generates 10-Word AI Commit Messages**: Dispatches staged diffs and statistics to your chosen AI engine (**OpenAI Codex**, **Anthropic Claude Code**, or direct REST APIs).
+3. **Generates 10-Word AI Commit Messages**: Dispatches staged diffs and statistics to your chosen AI engine (OpenAI Codex, Anthropic Claude Code, or direct REST APIs).
 4. **Maintains Your Custom Log File**: Appends timestamped headers and concise change summaries to your configured logging markdown file (`CHANGELOG.md`, `dev.md`, `logging.md`, `devlog.md`, etc.).
-5. **Commits and Pushes**: Commits the clean message, tracks upstream branches, pushes to remote, and optionally opens your GitHub repository in browser.
+5. **Commits and Pushes**: Commits the clean message, tracks upstream branches, pushes to remote, and automatically opens your GitHub repository in browser.
 
 ---
 
-## 🛡️ Built-in Self-Healing Architecture
+## Built-in Self-Healing Architecture
 
 `aicc` is engineered with an 8-layer self-healing subsystem to guarantee zero runtime failures across diverse environments:
 
 1. **20+ Log Naming Candidate Auto-Discovery**: If no log file is explicitly configured (or if the configured name is absent), `aicc` automatically searches the repository root for over 20 standard naming conventions (`CHANGELOG.md`, `dev.md`, `logging.md`, `devlog.md`, `changes.md`, `history.md`, `releases.md`, `worklog.md`, etc.) and fuzzy matches any root log markdown file.
 2. **Git Executable Auto-Discovery**: If `git` is missing from the active subshell PATH, `aicc` checks standard Windows install directories (`Program Files`, `AppData/Local/Programs/Git`, Chocolatey) and auto-injects it into the session.
 3. **User Identity Self-Healing**: Automatically prevents `unable to auto-detect email address` Git errors by resolving missing `user.name` and `user.email` from GitHub CLI profile or system login identity.
-4. **Multi-Tier AI Cascaded Fallbacks**: If the local CLI (`codex` or `claude`) times out or encounters PATH errors, `aicc` seamlessly falls back to direct REST API calls (`gpt-4o-mini`, `claude-3-5-haiku`).
+4. **Multi-Tier AI Cascaded Fallbacks**: If the local CLI (`codex` or `claude`) times out or encounters PATH errors, `aicc` seamlessly falls back to direct REST API calls using default production models.
 5. **Cross-Provider Key Recovery**: If the selected provider has no valid key configured, `aicc` checks for alternative provider keys present in `~/.aicc/.env`.
 6. **Deterministic Offline Fallback**: If internet connectivity is down or all AI keys fail, `aicc` parses staged diff statistics to generate a meaningful conventional commit message and changelog entry, ensuring commits are never blocked.
 7. **Remote Push & Divergence Resolution**: Automatically sets upstream tracking (`git push -u origin <branch>`) on new repos, and detects non-fast-forward remote divergences to execute an automated `git pull --rebase` before pushing.
 8. **Universal Web URL Parsing**: Normalizes SSH (`git@github.com:...`) and HTTPS Git remotes to open the repository in the user's default browser even without GitHub CLI installed.
 
-
 ---
 
-## ⚙️ Configuration & Customization
+## Configuration and Customization
 
 The interactive setup wizard saves your settings securely outside repository tracking at `~/.aicc/`:
 
 - **Configuration File**: `%USERPROFILE%\.aicc\config.json`
 - **Secrets File**: `%USERPROFILE%\.aicc\.env`
 
-### `config.json` Options
+### config.json Options
 
 ```json
 {
@@ -96,9 +123,7 @@ The interactive setup wizard saves your settings securely outside repository tra
   "default_branch": "main",
   "max_commit_words": 10,
   "changelog_bullets_count": 3,
-  "open_web_on_push": true,
-  "openai_model": "gpt-4o-mini",
-  "anthropic_model": "claude-3-5-haiku-20241022"
+  "open_web_on_push": true
 }
 ```
 
@@ -114,7 +139,7 @@ The interactive setup wizard saves your settings securely outside repository tra
 
 ---
 
-## 🔐 Security & Zero Key Leakage
+## Security and Zero Key Leakage
 
 - **API Keys are Never Committed**: `.env` and `config.json` files are explicitly excluded via `.gitignore`.
 - Keys are kept in the user's secure home profile directory (`%USERPROFILE%\.aicc\.env`).
@@ -122,7 +147,7 @@ The interactive setup wizard saves your settings securely outside repository tra
 
 ---
 
-## 🛠️ CLI Providers Supported
+## CLI Providers Supported
 
 | Engine | Execution Method | Fallback Strategy |
 | :--- | :--- | :--- |
@@ -132,23 +157,26 @@ The interactive setup wizard saves your settings securely outside repository tra
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 aicc/
 ├── .gitignore              # Strict exclusions (.env, config.json, temp files)
 ├── .env.example            # Environment template for manual configurations
 ├── config.example.json     # Configuration template with schema references
+├── package.json            # Node.js optional dependencies & scripts
+├── requirements.txt        # System requirements specification
 ├── LICENSE                 # MIT License
 ├── README.md               # Documentation & usage guide
 ├── setup.bat               # Interactive setup batch launcher
 ├── setup.ps1               # Automated configuration & PATH installer
+├── aicc.bat                # Batch execution alias
 ├── aicc.cmd                # Global CMD execution entrypoint
 └── aicc.ps1                # Core automation engine
 ```
 
 ---
 
-## 📜 License
+## License
 
 Distributed under the [MIT License](LICENSE). Copyright (c) 2026 [Oumar Ibrahim (IamOumarIbrahim)](https://github.com/IamOumarIbrahim).

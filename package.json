@@ -1,0 +1,27 @@
+{
+  "name": "aicc",
+  "version": "1.0.0",
+  "description": "Reproducible AI-driven git staging, 10-word commit generation, and automated changelog maintenance for Codex, Claude Code, and direct APIs.",
+  "main": "aicc.ps1",
+  "scripts": {
+    "setup": "setup.bat",
+    "install:codex": "npm install -g @openai/codex",
+    "install:claude": "npm install -g @anthropic-ai/claude-code"
+  },
+  "keywords": [
+    "git",
+    "commit",
+    "changelog",
+    "ai",
+    "codex",
+    "claude",
+    "automation",
+    "powershell"
+  ],
+  "author": "Oumar Ibrahim (IamOumarIbrahim)",
+  "license": "MIT",
+  "optionalDependencies": {
+    "@openai/codex": "latest",
+    "@anthropic-ai/claude-code": "latest"
+  }
+}

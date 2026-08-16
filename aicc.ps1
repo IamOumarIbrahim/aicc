@@ -313,7 +313,7 @@ if (-not $rawOutput) {
             # Tier 2: Direct Anthropic REST API Fallback
             if (-not $rawOutput -and $env:ANTHROPIC_API_KEY) {
                 $body = @{
-                    model      = if ($config.anthropic_model) { $config.anthropic_model } else { "claude-3-5-haiku-20241022" }
+                    model      = "claude-3-5-haiku-20241022"
                     max_tokens = 300
                     messages   = @(@{ role = "user"; content = $prompt })
                 } | ConvertTo-Json -Depth 5
@@ -351,7 +351,7 @@ if (-not $rawOutput) {
             # Tier 2: Direct OpenAI REST API Fallback
             if (-not $rawOutput -and $env:OPENAI_API_KEY) {
                 $body = @{
-                    model       = if ($config.openai_model) { $config.openai_model } else { "gpt-4o-mini" }
+                    model       = "gpt-4o-mini"
                     messages    = @(@{ role = "user"; content = $prompt })
                     max_tokens  = 300
                     temperature = 0.2

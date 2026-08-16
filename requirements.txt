@@ -1,0 +1,20 @@
+# ==============================================================================
+# aicc — System Requirements & Dependencies
+# ==============================================================================
+# 
+# Core Requirements (Pre-installed on Windows):
+# - PowerShell >= 5.1 or PowerShell Core (pwsh >= 7.0)
+# - Git >= 2.30.0 (https://git-scm.com/)
+#
+# Optional GitHub Integration:
+# - GitHub CLI (gh >= 2.0.0) for automated repository creation & web viewing
+#   Install via: winget install --id GitHub.cli
+#
+# Optional CLI Engines (Install via Node.js / npm):
+# - @openai/codex (npm install -g @openai/codex)
+# - @anthropic-ai/claude-code (npm install -g @anthropic-ai/claude-code)
+#
+# Note: Zero npm packages are mandatory. If npm is not installed, aicc
+# automatically uses its built-in zero-dependency REST API fallbacks with
+# your API key from ~/.aicc/.env.
+# ==============================================================================

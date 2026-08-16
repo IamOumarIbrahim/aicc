@@ -43,8 +43,6 @@ $existingConfig = @{
     max_commit_words         = 10
     changelog_bullets_count  = 3
     open_web_on_push         = $true
-    openai_model             = "gpt-4o-mini"
-    anthropic_model          = "claude-3-5-haiku-20241022"
 }
 
 if (Test-Path $configJsonPath) {
@@ -170,8 +168,6 @@ $finalConfig = [ordered]@{
     max_commit_words         = $existingConfig["max_commit_words"]
     changelog_bullets_count  = $existingConfig["changelog_bullets_count"]
     open_web_on_push         = $existingConfig["open_web_on_push"]
-    openai_model             = $existingConfig["openai_model"]
-    anthropic_model          = $existingConfig["anthropic_model"]
 }
 
 $jsonOutput = $finalConfig | ConvertTo-Json -Depth 5
