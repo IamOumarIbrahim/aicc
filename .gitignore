@@ -1,0 +1,27 @@
+# Environment variables & API Keys (Never commit secrets)
+.env
+*.env
+.env.*
+!.env.example
+
+# Local configuration
+config.json
+!.config.example.json
+config.local.json
+.aicc/
+
+# Logs & Temporary Files
+*.log
+*.tmp
+temp/
+
+# Node & Package Managers
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Windows System Files
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
